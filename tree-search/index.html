@@ -1,0 +1,72 @@
+---
+layout: map
+title: Karlsruhe Tree Search
+---
+<p id="control">
+    <label>Baum:
+    <input id="search" type="text">
+    </label>
+</p>
+<div id="map"></div>
+<script>
+    const map = L.map('map', {
+        center: [49.009501, 8.403854],
+        zoom: 16,
+        minZoom: 12,
+        maxZoom: 20
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const trees = L.esri.dynamicMapLayer({
+        url: "https://geoportal.karlsruhe.de/server/rest/services/Fachplaene/Baumkataster/MapServer/",
+        attribution: "Datensatz <a href=\"https://transparenz.karlsruhe.de/dataset/fcdceb2e-d16d-410c-ba0f-521ba8c6effa\">Fachpläne - Baumkataster</a>, <a href=\"https://karlsruhe.de\">Stadt Karlsruhe</a>. Veröffentlicht unter der Lizenz <a href=\"https://www.govdata.de/dl-de/by-2-0\">Datenlizenz Deutschland – Namensnennung – Version 2.0</a>"
+    }).addTo(map);
+
+    trees.bindPopup((error, featureCollection) => {
+        if (error || featureCollection.features.length === 0) {
+            return false;
+        } else {
+            console.log(featureCollection.features[0]);
+            return featureCollection.features[0].properties.HTML;
+        }
+    });
+
+    let markers = [];
+
+    function clearMarkers() {
+        markers.forEach(marker => {
+            marker.removeFrom(map);
+        })
+        markers = [];
+    }
+
+    function addMarker(coordinates) {
+        markers.push(L.circle([coordinates[1], coordinates[0]], {
+            color: 'blue',
+            fillColor: '#0f3',
+            fillOpacity: 0.4,
+            radius: 25
+        }).addTo(map));
+    }
+
+    document.querySelector('#search').addEventListener('change', evt => {
+        trees.query().layer(1).where("ARTDEUT LIKE '%"+evt.target.value+"%'")
+            .run((error, collection, response) => {
+                if (error) {
+                    console.log(error);
+                    return;
+                }
+                clearMarkers();
+                collection.features.forEach(feature => {
+                    const coordinates = feature.geometry.coordinates;
+                    addMarker(coordinates);
+                });
+            })
+    });
+
+;
+
+</script>
