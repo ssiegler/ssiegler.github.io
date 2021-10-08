@@ -2,12 +2,14 @@
 layout: map
 title: Karlsruhe Tree Search
 ---
-<p id="control">
+<div id="control">
+<form>
     <label>Baum:
-        <input id="search" type="text" list="treeNames">
+        <input id="search" type="search" list="treeNames">
     </label>
     <datalist id="treeNames"></datalist>
-</p>
+</form>
+</div>
 <div id="map"></div>
 <script>
     const map = L.map('map', {
@@ -50,7 +52,7 @@ title: Karlsruhe Tree Search
                 maxLength = Math.max(entry.length, maxLength);
             }
         });
-        document.getElementById("search").size= maxLength;
+        document.getElementById("search").size = maxLength;
     });
 
     let markers = [];
