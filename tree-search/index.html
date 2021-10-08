@@ -4,8 +4,9 @@ title: Karlsruhe Tree Search
 ---
 <p id="control">
     <label>Baum:
-    <input id="search" type="text">
+    <input id="search" type="text" list="treeNames">
     </label>
+    <datalist id="treeNames"></datalist>
 </p>
 <div id="map"></div>
 <script>
@@ -29,9 +30,22 @@ title: Karlsruhe Tree Search
         if (error || featureCollection.features.length === 0) {
             return false;
         } else {
-            console.log(featureCollection.features[0]);
             return featureCollection.features[0].properties.HTML;
         }
+    });
+
+    const treeNames = [];
+    trees.query().layer(1).fields(["ARTDEUT"]).distinct().run((error, collection) => {
+       if (error) {
+           console.log(error);
+           return;
+       }
+       const list = document.getElementById("treeNames");
+       collection.features.forEach(feature => {
+           const option = document.createElement('option');
+           option.value = feature.properties["ARTDEUT"];
+           list.appendChild(option);
+       });
     });
 
     let markers = [];
@@ -53,8 +67,8 @@ title: Karlsruhe Tree Search
     }
 
     document.querySelector('#search').addEventListener('change', evt => {
-        trees.query().layer(1).where("ARTDEUT LIKE '%"+evt.target.value+"%'")
-            .run((error, collection, response) => {
+        trees.query().layer(1).where("LOWER(ARTDEUT) LIKE '%"+evt.target.value.toLowerCase().replace(/'/g, "''")+"%'")
+            .run((error, collection) => {
                 if (error) {
                     console.log(error);
                     return;
@@ -67,6 +81,6 @@ title: Karlsruhe Tree Search
             })
     });
 
-;
+
 
 </script>
