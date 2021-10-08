@@ -81,7 +81,7 @@ title: Karlsruhe Tree Search
                     return;
                 }
 
-                map.fitBounds(bounds);
+                map.fitBounds(bounds.pad(0.1));
             });
         trees.query().layer(1).where("LOWER(ARTDEUT) LIKE '%" + evt.target.value.toLowerCase().replace(/'/g, "''") + "%'")
             .run((error, collection) => {
