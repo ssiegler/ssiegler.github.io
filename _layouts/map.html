@@ -6,14 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
-    <link rel="manifest" href="assets/images/site.webmanifest">
-    <meta name="msapplication-TileColor" content="#4a4a4a">
-    <meta name="msapplication-config" content="assets/images/browserconfig.xml">
-    <meta name="theme-color" content="#4a4a4a">
     <title>{{ page.title }} · Simon Siegler</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -24,7 +16,13 @@
     <script src="https://unpkg.com/esri-leaflet@3.0.0/dist/esri-leaflet.js"></script>
     <script src="https://unpkg.com/esri-leaflet-vector@3.0.0/dist/esri-leaflet-vector.js"></script>
     <style>
-        html, body {
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        html {
+            box-sizing: border-box;
+        }
+        body {
             margin: 0;
         }
         #control {
@@ -37,7 +35,8 @@
         }
 
         #map {
-            flex-grow: 1;
+            flex: 1;
+            width: 100%;
         }
     </style>
 </head>
