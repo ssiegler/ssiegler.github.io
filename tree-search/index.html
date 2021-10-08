@@ -40,11 +40,17 @@ title: Karlsruhe Tree Search
             return;
         }
         const list = document.getElementById("treeNames");
+        let maxLength = 0;
         collection.features.forEach(feature => {
             const option = document.createElement('option');
-            option.value = feature.properties["ARTDEUT"];
-            list.appendChild(option);
+            let entry = feature.properties["ARTDEUT"];
+            if (entry) {
+                option.value = entry;
+                list.appendChild(option);
+                maxLength = Math.max(entry.length, maxLength);
+            }
         });
+        document.getElementById("search").size= maxLength;
     });
 
     let markers = [];
