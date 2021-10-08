@@ -31,7 +31,11 @@
         main {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%; /* Fallback */
+            height: -moz-available;
+            height: -webkit-fill-available;
+            height: fill-available;
+            height: stretch; /* Latest specification */
         }
 
         #map {
