@@ -4,7 +4,7 @@ title: Karlsruhe Tree Search
 ---
 <p id="control">
     <label>Baum:
-    <input id="search" type="text" list="treeNames">
+        <input id="search" type="text" list="treeNames">
     </label>
     <datalist id="treeNames"></datalist>
 </p>
@@ -34,18 +34,17 @@ title: Karlsruhe Tree Search
         }
     });
 
-    const treeNames = [];
     trees.query().layer(1).fields(["ARTDEUT"]).distinct().run((error, collection) => {
-       if (error) {
-           console.log(error);
-           return;
-       }
-       const list = document.getElementById("treeNames");
-       collection.features.forEach(feature => {
-           const option = document.createElement('option');
-           option.value = feature.properties["ARTDEUT"];
-           list.appendChild(option);
-       });
+        if (error) {
+            console.log(error);
+            return;
+        }
+        const list = document.getElementById("treeNames");
+        collection.features.forEach(feature => {
+            const option = document.createElement('option');
+            option.value = feature.properties["ARTDEUT"];
+            list.appendChild(option);
+        });
     });
 
     let markers = [];
@@ -67,7 +66,16 @@ title: Karlsruhe Tree Search
     }
 
     document.querySelector('#search').addEventListener('change', evt => {
-        trees.query().layer(1).where("LOWER(ARTDEUT) LIKE '%"+evt.target.value.toLowerCase().replace(/'/g, "''")+"%'")
+        trees.query().layer(1).where("LOWER(ARTDEUT) LIKE '%" + evt.target.value.toLowerCase().replace(/'/g, "''") + "%'")
+            .bounds((error, bounds) => {
+                if (error) {
+                    console.log(error);
+                    return;
+                }
+
+                map.fitBounds(bounds);
+            });
+        trees.query().layer(1).where("LOWER(ARTDEUT) LIKE '%" + evt.target.value.toLowerCase().replace(/'/g, "''") + "%'")
             .run((error, collection) => {
                 if (error) {
                     console.log(error);
@@ -80,7 +88,6 @@ title: Karlsruhe Tree Search
                 });
             })
     });
-
 
 
 </script>
