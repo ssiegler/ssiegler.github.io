@@ -2,10 +2,10 @@
 ---
 <!doctype html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
@@ -24,25 +24,26 @@
     <script src="https://unpkg.com/esri-leaflet@3.0.0/dist/esri-leaflet.js"></script>
     <script src="https://unpkg.com/esri-leaflet-vector@3.0.0/dist/esri-leaflet-vector.js"></script>
     <style>
-      #control {
-        position: absolute;
-        height: 50px;
-        top: 0;
-        width: 100%;
-        text-align: center;
-      }
-      #map {
-        position: absolute;
-        top: 50px;
-        bottom: 0px;
-		left: 0px;
-        right: 0px;
-	}
+        html, body {
+            margin: 0;
+        }
+        #control {
+            text-align: center;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #map {
+            flex-grow: 1;
+        }
     </style>
-  </head>
-  <body>
-      <main>
-        {{ content }}
-      </main>
-  </body>
+</head>
+<body>
+<main>
+    {{ content }}
+</main>
+</body>
 </html>
