@@ -3,12 +3,12 @@ layout: map
 title: Karlsruhe Tree Search
 ---
 <div id="control">
-<form>
-    <label>Baum:
-        <input id="search" type="search" list="treeNames">
-    </label>
-    <datalist id="treeNames"></datalist>
-</form>
+    <form>
+        <label>Baum:
+            <input id="search" type="search" list="treeNames">
+        </label>
+        <datalist id="treeNames"></datalist>
+    </form>
 </div>
 <div id="map"></div>
 <script>
@@ -41,18 +41,22 @@ title: Karlsruhe Tree Search
             console.log(error);
             return;
         }
-        const list = document.getElementById("treeNames");
-        let maxLength = 0;
+        const names = []
         collection.features.forEach(feature => {
-            const option = document.createElement('option');
             let entry = feature.properties["ARTDEUT"];
             if (entry) {
-                option.value = entry;
-                list.appendChild(option);
-                maxLength = Math.max(entry.length, maxLength);
+                names.push(entry);
             }
         });
-        document.getElementById("search").size = maxLength;
+        names.sort();
+        const list = document.getElementById("treeNames");
+        names.forEach(name => {
+            const option = document.createElement('option');
+            option.value = name;
+            list.appendChild(option);
+        });
+
+        document.getElementById("search").size = Math.max.apply(Math, names.map(name => name.length));
     });
 
     let markers = [];
