@@ -57,11 +57,11 @@ title: Karlsruhe Tree Search
     }
 
     function addMarker(coordinates) {
-        markers.push(L.circle([coordinates[1], coordinates[0]], {
+        markers.push(L.circleMarker([coordinates[1], coordinates[0]], {
             color: 'blue',
             fillColor: '#0f3',
             fillOpacity: 0.4,
-            radius: 25
+            radius: 15
         }).addTo(map));
     }
 
