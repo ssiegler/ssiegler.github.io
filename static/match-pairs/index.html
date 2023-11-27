@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=yes, initial-scale=1.0">
+    <title>Tippe die Paare an</title>
+    <style>
+        h1 {
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: sans-serif;
+        }
+        table {
+            margin-right: auto;
+            margin-left: auto;
+        }
+        button {
+            font-family: sans-serif;
+            height: 3em;
+            width: 15em;
+            font-size: 20pt;
+            margin: 6px;
+            background: #f1f1f1;
+            color: #4a4a4a;
+            border: 1px solid #4a4a4a;
+            border-radius: 16px;
+        }
+
+        button.selected {
+            background: powderblue;
+        }
+
+        button.correct {
+            background: aquamarine;
+        }
+
+        button.wrong {
+            background: #ecaeae;
+        }
+    </style>
+</head>
+<body>
+<h1>Tippe die Paare an</h1>
+
+<table id="pairs">
+
+</table>
+
+
+<template id="pair">
+    <tr>
+        <td>
+            <button class="left"></button>
+        </td>
+        <td>
+            <button class="right"></button>
+        </td>
+    </tr>
+</template>
+
+<script>
+    const pairs = [
+        ["Salat", "insalata"],
+        ["Hunger", "fame"],
+        ["Uhr", "orologio"],
+        ["groß", "grande"],
+        ["morgen", "domani"],
+    ]
+    const languages = ["de", "it"]
+
+    const lookups = [{}, {}]
+    const lefts = []
+    const rights = []
+    for (const [left, right] of pairs) {
+        lookups[1][right] = left
+        lookups[0][left] = right
+        lefts.push(left)
+        rights.push(right)
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    shuffle(lefts)
+    shuffle(rights)
+
+    const container = document.querySelector("#pairs")
+    const template = document.querySelector("#pair")
+
+    for (let i = 0; i < pairs.length; i++) {
+        const clone = template.content.cloneNode(true)
+        const leftButton = clone.querySelector(".left")
+        leftButton.textContent = lefts[i]
+        leftButton.lang = languages[0]
+        const rightButton = clone.querySelector(".right")
+        rightButton.textContent = rights[i]
+        rightButton.lang = languages[1]
+        container.appendChild(clone)
+    }
+
+    let selected = null
+    for (const button of container.querySelectorAll("button")) {
+        button.onclick = (ev) => {
+            ev.target.classList.add("selected")
+            if (selected === null) {
+                selected = ev.target
+            } else if (selected.lang === ev.target.lang) {
+                selected.classList.remove("selected")
+                selected = ev.target
+            } else if (lookups[languages.indexOf(selected.lang)][selected.textContent] === ev.target.textContent) {
+                selected.classList.add("correct")
+                ev.target.classList.add("correct")
+                selected.disabled = true
+                ev.target.disabled = true
+                selected = null
+            } else {
+                ev.target.classList.remove("selected")
+                selected.classList.remove("selected")
+                ev.target.classList.add("wrong")
+                selected.classList.add("wrong")
+            }
+
+        }
+    }
+
+</script>
+</body>
+</html>
