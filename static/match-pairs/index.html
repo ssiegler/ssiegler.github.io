@@ -12,10 +12,12 @@
             margin-right: auto;
             font-family: sans-serif;
         }
+
         table {
             margin-right: auto;
             margin-left: auto;
         }
+
         button {
             font-family: sans-serif;
             height: 3em;
@@ -124,6 +126,10 @@
                 selected.classList.remove("selected")
                 ev.target.classList.add("wrong")
                 selected.classList.add("wrong")
+                setTimeout(() => {
+                    ev.target.classList.remove("wrong")
+                    selected.classList.remove("wrong")
+                }, 500)
             }
 
         }
