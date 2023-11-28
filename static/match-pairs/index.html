@@ -131,6 +131,7 @@
                 ev.target.classList.add("wrong")
                 selected.classList.add("wrong")
                 const toClear = selected
+                selected = null
                 setTimeout(() => {
                     ev.target.classList.remove("wrong")
                     toClear.classList.remove("wrong")
